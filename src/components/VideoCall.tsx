@@ -12,8 +12,61 @@ const ContainerVariants = {
   },
 };
 
+const doctors = [
+  {
+    id: 1,
+    name: "Dr. Ananya Sharma",
+    specialization: "Cardiologist",
+    experience: 12,
+    rating: 4.8,
+    location: "Mumbai, India",
+    contact: "+91 9876543210",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+  },
+  {
+    id: 2,
+    name: "Dr. Rohan Mehta",
+    specialization: "Dermatologist",
+    experience: 8,
+    rating: 4.6,
+    location: "Delhi, India",
+    contact: "+91 8765432109",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+  },
+  {
+    id: 3,
+    name: "Dr. Priya Verma",
+    specialization: "Pediatrician",
+    experience: 10,
+    rating: 4.9,
+    location: "Bangalore, India",
+    contact: "+91 7654321098",
+    image: "https://randomuser.me/api/portraits/women/3.jpg",
+  },
+  {
+    id: 4,
+    name: "Dr. Arjun Kapoor",
+    specialization: "Orthopedic Surgeon",
+    experience: 15,
+    rating: 4.7,
+    location: "Chennai, India",
+    contact: "+91 6543210987",
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+  },
+  {
+    id: 5,
+    name: "Dr. Sanya Iyer",
+    specialization: "Neurologist",
+    experience: 14,
+    rating: 4.8,
+    location: "Kolkata, India",
+    contact: "+91 5432109876",
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+  },
+];
+
 const ItemVariants = {
-  hidden: { opacity: 0},
+  hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 1 } },
 };
 
@@ -27,10 +80,11 @@ const arr: string[] = [
 const VideoCall = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [select, setSelect] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Scheduled:", { date: selectedDate, time: selectedTime });
+    setSelect((prev) => !prev);
   };
 
   return (
@@ -97,8 +151,7 @@ const VideoCall = () => {
                 whileInView="show"
                 viewport={{ once: true }}
               >
-                <motion.div 
-                variants={ItemVariants}>
+                <motion.div variants={ItemVariants}>
                   <label
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -114,8 +167,7 @@ const VideoCall = () => {
                   />
                 </motion.div>
 
-                <motion.div 
-                variants={ItemVariants}>
+                <motion.div variants={ItemVariants}>
                   <label
                     htmlFor="date"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -133,8 +185,7 @@ const VideoCall = () => {
                   />
                 </motion.div>
 
-                <motion.div 
-                variants={ItemVariants}>
+                <motion.div variants={ItemVariants}>
                   <label
                     htmlFor="time"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -159,8 +210,8 @@ const VideoCall = () => {
                   </select>
                 </motion.div>
 
-                <motion.button 
-                variants={ItemVariants}
+                <motion.button
+                  variants={ItemVariants}
                   type="submit"
                   className="w-full bg-orange-400 text-white px-6 py-3 rounded-md hover:bg-orange-500 transition-colors flex items-center justify-center gap-2"
                 >
@@ -171,6 +222,31 @@ const VideoCall = () => {
             </form>
           </div>
         </div>
+        {select && (
+          <>
+            <h2 className="text-xl font-bold mb-4">Available doctors</h2>
+            <div className="flex gap-3 flex-wrap justify-evenly w-full">
+              {doctors.map((p) => (
+                <div key={p.id} onClick={()=> {
+                  setSelect(false);
+                  alert('Your meeting has been arranged.')
+                }} className="cursor-pointer flex items-center border border-gray-300 p-5 rounded-lg">
+                  <img
+                    src={p.image}
+                    className="w-20 h-20 rounded-full mr-5"
+                    alt=""
+                  />
+                  <div className="">
+                    <h2>{p.name}</h2>
+                    <p>{p.experience} years of experience.</p>
+                    <p>{p.location}</p>
+                    <p>{p.contact}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
